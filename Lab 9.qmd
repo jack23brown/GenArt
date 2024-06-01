@@ -85,6 +85,9 @@ dat2 <- sample_data(n = 350, seed = 35) |>
   mutate(y0 = .3 + y0 * .6, y1 = .3)
 
 dat3 <- as.data.frame(list(x1=0,y1=0))
+dat4 <- as.data.frame(list(x1=-0.97,y1=-0.55))
+dat5 <- as.data.frame(list(x1=0.97,y1=0.55))
+dat6 <- as.data.frame(list(x1=0.15,y1=0.55))
 
 polar_styled_plot(palette = c("cyan", "white", "gold")) + 
   geom_segment(data = dat1) + 
@@ -99,12 +102,15 @@ polar_styled_plot(palette = c("cyan", "white", "gold")) +
     data = dat2 |> mutate(size = size / 40), 
     lineend = "round", 
     colour = "green4"
-  )  + geom_point(data=dat3, aes(x1,y1), size = 32, col="brown")
+  )  + geom_point(data=dat3, aes(x1,y1), size = 35, col="sienna4") + 
+  geom_point(data=dat4, aes(x1,y1), size = 10, col="salmon4") +
+  geom_point(data=dat5, aes(x1,y1), size = 10, col="salmon4") +
+  geom_point(data=dat6, aes(x1,y1), size = 10, col="salmon4")
 ```
 
-**360 Bird's Eye View of a Palm Tree on the Beach:** This piece of digital art offers a modern and contemporary take on a rather ordinary sight for a California kid: a palm tree on the beach. The perspective is from a bird's eye view, looking directly down on the palm tree from the top of it. It is also reminiscent of the view one would get when using a 360 degree camera, in which it wraps the entire picture to make everything look circular and around, as if you were on top of the world.
+**360 Bird's Eye View of a Palm Tree on the Beach (with Three Coconuts):** This piece of digital art offers a modern and contemporary take on a rather ordinary sight for a California kid: a palm tree on the beach. The perspective is from a bird's eye view, looking directly down on the palm tree from the top of it. It is also reminiscent of the view one would get when using a 360 degree camera, in which it wraps the entire picture to make everything look circular and around, as if you were on top of the world.
 
-I combined several different elements of the examples using the polar_styled_plot() command provided in the generative art article, and then really just tried to combine them all. Once combined, I mainly changed the parameter n to a smaller number (to 500 from 2000) to get a less hectic and busy base of sand and water. I also changed the divisor in the size parameter in the mutate() function for dat1 and dat2 to try to obtain the best looking palm leaves. Finally, I of course altered the colors to mimic the golden sand and light blue water of the beach, as well as the dark green colors of palm tree laeves. I then made my own dataset "dat3" to add a simple brown circle in the middle using geom_point that acts as the center trunk/stem of the palm tree.
+I combined several different elements of the examples using the polar_styled_plot() command provided in the generative art article, and then really just tried to combine them all. Once combined, I mainly changed the parameter n to a smaller number (to 500 from 2000) to get a less hectic and busy base of sand and water. I also changed the divisor in the size parameter in the mutate() function for dat1 and dat2 to try to obtain the best looking palm leaves. Finally, I of course altered the colors to mimic the golden sand and light blue water of the beach, as well as the dark green colors of palm tree laeves. I then made my own dataset "dat3" to add a simple brown circle in the middle using geom_point that acts as the center trunk/stem of the palm tree. Although probably not the most concise way, I also made separate datasets and geom_point() commands to add coconuts to the palm tree.
 
 ## Part 2
 
