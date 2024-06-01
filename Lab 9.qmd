@@ -94,7 +94,7 @@ polar_styled_plot(palette = c("cyan", "white", "gold")) +
     data = dat2 |> mutate(size = size / 40), 
     lineend = "round", 
     colour = "green4"
-  )
+  )  + geom_point(data=dat3, aes(x1,y1), size = 32, col="brown")
 ```
 
 **360 Bird's Eye View of a Palm Tree on the Beach**
