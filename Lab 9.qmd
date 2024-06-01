@@ -11,6 +11,7 @@ editor: visual
 library(ggplot2)
 library(tibble)
 library(dplyr)
+library(usethis)
 ```
 
 ## Part 1
@@ -73,31 +74,39 @@ polar_styled_plot <- function(data = NULL, palette) {
 ```
 
 ```{r}
-dat1 <- sample_data(n = 500, seed = 123) |>
-  mutate(y1 = y0, size = size / 2)
-
-dat2 <- sample_data(n = 350, seed = 35) |>  
-  mutate(y0 = .3 + y0 * .6, y1 = .3)
-
-dat3 <- as.data.frame(list(x1=0,y1=0))
-
-polar_styled_plot(palette = c("cyan", "white", "gold")) + 
-  geom_segment(data = dat1) + 
-  geom_segment(data = dat1 |> mutate(y1 = y1 - .2, y0 = y0 - .2)) +
-  geom_segment(data = dat1 |> mutate(y1 = y1 - .4, y0 = y0 - .4)) + 
-  geom_segment(
-    data = dat2 |> mutate(size = size / 10), 
-    lineend = "round", 
-    colour = "green3"
-  ) +
-  geom_segment(
-    data = dat2 |> mutate(size = size / 40), 
-    lineend = "round", 
-    colour = "green4"
-  )
+polar_styled_plot <- function(data = NULL, palette) {
+  ggplot(
+    data = data,
+    mapping = aes(
+      x = x0,
+      y = y0,
+      xend = x1,
+      yend = y1,
+      colour = shade,
+      size = size
+    )) + 
+    coord_polar(clip = "off") +
+    scale_y_continuous(
+      expand = c(0, 0),
+      limits = c(0, 1), 
+      oob = scales::oob_keep
+    ) +
+    scale_x_continuous(
+      expand = c(0, 0), 
+      limits = c(0, 1), 
+      oob = scales::oob_keep
+    ) + 
+    scale_colour_gradientn(colours = palette) + 
+    scale_size(range = c(0, 10)) + 
+    theme_void() + 
+    guides(
+      colour = guide_none(),
+      size = guide_none(),
+      fill = guide_none(),
+      shape = guide_none()
+    )
+}
 ```
-
-**360 Bird's Eye View of a Palm Tree on the Beach**
 
 ## Part 2
 
@@ -128,14 +137,14 @@ additive_circles <- function(n = 5, pixels = 1000, seed = NULL) {
     x = seq(0, 1, length.out = pixels),
     y = seq(0, 1, length.out = pixels)
   )
-  art$paint <- 50
+  art$paint <- 0
   
   for(i in 1:n) {
     
     # sample a random circle
-    x_center <- runif(1, min = .1, max = .9)
-    y_center <- runif(1, min = .1, max = .9)
-    radius <- runif(1, min = .005, max = .05)
+    x_center <- runif(1, min = .3, max = .7)
+    y_center <- runif(1, min = .3, max = .7)
+    radius <- runif(1, min = .05, max = .25)
     
     # add +1 to all points inside the circle
     art <- art |>
@@ -151,19 +160,3 @@ additive_circles <- function(n = 5, pixels = 1000, seed = NULL) {
   return(art)
 }
 ```
-
-```{r}
-circle_art <- additive_circles(1500, seed = 2)
-
-circle_array <- circle_art |>
-  as.array(value = paint) 
-
-circle_array |> 
-  image(axes = FALSE, asp = 1, useRaster = TRUE, col=c("cyan2", "green4", "brown"))
-```
-
-***The Hidden Lands of the Flat Earth***: A completely random and baseless rendering that mimics the completely random and baseless belief that some hold that the Earth is flat. Believers of a Flat Earth have shared images very similar to this one, which supposedly is a map of the "real" Earth, displaying has "Hidden Lands", which are tons of different groups of continents, separated by ice walls. \[<https://www.reddit.com/r/MapPorn/comments/cc5sfm/flat_earth_hidden_lands_map_which_shows_what_the/>\]
-
-\[<https://www.reddit.com/r/FacebookScience/comments/15xz270/the_true_map_of_the_earth_beyond_the_ice_wall/>\]
-
-This art is made by rendering lots of circles, and coloring the positive, negative, and overlapping space. On a 1x1 plot, I allowed the radius of the circles to range from between 0.005 and 0.05, and allowed the (x,y) coordinates of centers of each circle range from anywhere from 0.1 to 0.9
