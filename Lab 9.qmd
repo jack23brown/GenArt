@@ -102,7 +102,7 @@ polar_styled_plot(palette = c("cyan", "white", "gold")) +
     data = dat2 |> mutate(size = size / 40), 
     lineend = "round", 
     colour = "green4"
-  )  + geom_point(data=dat3, aes(x1,y1), size = 35, col="sienna4") + 
+  )  + geom_point(data=dat3, aes(x1,y1), size = 38, col="sienna4") + 
   geom_point(data=dat4, aes(x1,y1), size = 10, col="salmon4") +
   geom_point(data=dat5, aes(x1,y1), size = 10, col="salmon4") +
   geom_point(data=dat6, aes(x1,y1), size = 10, col="salmon4")
